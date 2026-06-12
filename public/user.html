@@ -1,0 +1,2733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Titan SMM Panel</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0b0f;
+      --bg2: #111318;
+      --bg3: #181b24;
+      --bg4: #1e2130;
+      --accent: #7c3aed;
+      --accent2: #a855f7;
+      --accent3: #c084fc;
+      --gold: #f59e0b;
+      --green: #10b981;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --orange: #f97316;
+      --cyan: #06b6d4;
+      --text: #e2e8f0;
+      --text2: #94a3b8;
+      --text3: #64748b;
+      --border: #1e2130;
+      --border2: #2d3748;
+      --sidebar-w: 260px;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+    /* ===== LOGIN PAGE ===== */
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(168,85,247,0.1) 0%, transparent 50%),
+                  var(--bg);
+      padding: 20px;
+    }
+    .login-box {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    }
+    .login-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .login-logo .logo-icon {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 32px rgba(124,58,237,0.4);
+    }
+    .login-logo h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .login-logo p { color: var(--text2); font-size: 13px; margin-top: 4px; }
+    .login-tabs {
+      display: flex;
+      background: var(--bg3);
+      border-radius: var(--radius-sm);
+      padding: 4px;
+      margin-bottom: 28px;
+      gap: 4px;
+    }
+    .login-tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text2);
+      transition: all 0.2s;
+      border: none;
+      background: none;
+    }
+    .login-tab.active {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 4px 12px rgba(124,58,237,0.4);
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-control:focus { border-color: var(--accent); }
+    .input-icon { position: relative; }
+    .input-icon i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text3);
+      font-size: 14px;
+    }
+    .input-icon .form-control { padding-left: 42px; }
+    .btn {
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      box-shadow: 0 4px 15px rgba(124,58,237,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,0.5); }
+    .btn-block { width: 100%; }
+    .login-footer { text-align: center; margin-top: 20px; font-size: 13px; color: var(--text2); }
+    .login-footer a { color: var(--accent3); text-decoration: none; }
+    .forgot-link { text-align: right; margin-top: -12px; margin-bottom: 16px; }
+    .forgot-link a { font-size: 12px; color: var(--accent3); text-decoration: none; }
+
+    /* ===== MAIN LAYOUT ===== */
+    .app-container { display: none; }
+    .app-container.active { display: flex; min-height: 100vh; }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      z-index: 100;
+      transition: transform 0.3s;
+      overflow-y: auto;
+    }
+    .sidebar-logo {
+      padding: 22px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sidebar-logo .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(124,58,237,0.4);
+    }
+    .sidebar-logo h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .sidebar-logo span { font-size: 10px; color: var(--text3); display: block; margin-top: 1px; }
+    .sidebar-balance {
+      margin: 16px 12px;
+      background: linear-gradient(135deg, var(--bg4), rgba(124,58,237,0.1));
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+    }
+    .sidebar-balance .bal-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; }
+    .sidebar-balance .bal-amount { font-size: 22px; font-weight: 700; color: var(--accent3); margin: 4px 0; font-family: 'Space Grotesk', sans-serif; }
+    .sidebar-balance .bal-sub { font-size: 11px; color: var(--text3); }
+    .sidebar-balance .bal-sub span { color: var(--green); }
+    .sidebar-nav { flex: 1; padding: 8px 0; }
+    .nav-section { margin-bottom: 6px; }
+    .nav-label {
+      padding: 8px 20px 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+      border-radius: 8px;
+      margin: 2px 8px;
+      color: var(--text2);
+      font-size: 13.5px;
+      font-weight: 500;
+      text-decoration: none;
+      position: relative;
+    }
+    .nav-item:hover { background: var(--bg3); color: var(--text); }
+    .nav-item.active { background: rgba(124,58,237,0.15); color: var(--accent3); }
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 3px; height: 20px;
+      background: var(--accent);
+      border-radius: 0 3px 3px 0;
+    }
+    .nav-item .nav-icon { width: 18px; text-align: center; font-size: 15px; flex-shrink: 0; }
+    .nav-item .badge {
+      margin-left: auto;
+      background: var(--accent);
+      color: white;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .nav-item .badge.green { background: var(--green); }
+    .nav-item .badge.gold { background: var(--gold); color: #000; }
+    .sidebar-user {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-avatar {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .user-info .user-name { font-size: 13px; font-weight: 600; }
+    .user-info .user-role { font-size: 11px; color: var(--text3); }
+    .user-actions { margin-left: auto; display: flex; gap: 6px; }
+    .icon-btn {
+      width: 30px; height: 30px;
+      border-radius: 6px;
+      border: 1px solid var(--border2);
+      background: var(--bg3);
+      color: var(--text2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    .icon-btn:hover { background: var(--bg4); color: var(--text); }
+
+    /* ===== MAIN CONTENT ===== */
+    .main-content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .topbar-title h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .topbar-title p { font-size: 12px; color: var(--text3); margin-top: 1px; }
+    .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .notif-btn {
+      width: 38px; height: 38px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      color: var(--text2);
+      font-size: 15px;
+      transition: all 0.2s;
+    }
+    .notif-btn:hover { color: var(--text); background: var(--bg4); }
+    .notif-dot {
+      position: absolute;
+      top: 6px; right: 6px;
+      width: 8px; height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      border: 2px solid var(--bg2);
+    }
+    .page-content { flex: 1; padding: 24px; }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .card-title { font-size: 15px; font-weight: 600; }
+    .card-subtitle { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+    /* ===== STATS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .stat-card.purple::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+    .stat-card.green::before { background: var(--green); }
+    .stat-card.gold::before { background: var(--gold); }
+    .stat-card.blue::before { background: var(--blue); }
+    .stat-card.red::before { background: var(--red); }
+    .stat-card.cyan::before { background: var(--cyan); }
+    .stat-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+    .stat-icon.purple { background: rgba(124,58,237,0.15); color: var(--accent3); }
+    .stat-icon.green { background: rgba(16,185,129,0.15); color: var(--green); }
+    .stat-icon.gold { background: rgba(245,158,11,0.15); color: var(--gold); }
+    .stat-icon.blue { background: rgba(59,130,246,0.15); color: var(--blue); }
+    .stat-icon.red { background: rgba(239,68,68,0.15); color: var(--red); }
+    .stat-icon.cyan { background: rgba(6,182,212,0.15); color: var(--cyan); }
+    .stat-value { font-size: 24px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+    .stat-label { font-size: 12px; color: var(--text3); margin-top: 4px; }
+    .stat-change { font-size: 11px; margin-top: 6px; }
+    .stat-change.up { color: var(--green); }
+    .stat-change.down { color: var(--red); }
+
+    /* ===== NEW ORDER PAGE ===== */
+    .order-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 20px;
+      align-items: start;
+    }
+    .service-selector {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      width: 100%;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+    }
+    .service-selector:focus { border-color: var(--accent); }
+    .service-info-box {
+      background: rgba(124,58,237,0.08);
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-top: 12px;
+    }
+    .service-info-box .info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 4px 0;
+    }
+    .service-info-box .info-row .label { color: var(--text3); }
+    .service-info-box .info-row .val { font-weight: 600; color: var(--accent3); }
+    .order-summary-card {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: sticky;
+      top: 90px;
+    }
+    .order-summary-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .summary-row .s-label { color: var(--text3); }
+    .summary-row .s-val { font-weight: 600; }
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 14px;
+      padding-top: 14px;
+    }
+    .summary-total .total-price { color: var(--accent3); }
+    .service-type-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .stype-tab {
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border2);
+      background: var(--bg3);
+      color: var(--text2);
+      transition: all 0.2s;
+    }
+    .stype-tab.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+    /* ===== ORDERS TABLE ===== */
+    .table-wrapper { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 12px 14px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border2);
+    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+    tbody tr:hover { background: rgba(255,255,255,0.02); }
+    tbody td { padding: 13px 14px; font-size: 13px; color: var(--text); }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .status-badge.pending { background: rgba(245,158,11,0.15); color: var(--gold); }
+    .status-badge.inprogress { background: rgba(59,130,246,0.15); color: var(--blue); }
+    .status-badge.completed { background: rgba(16,185,129,0.15); color: var(--green); }
+    .status-badge.partial { background: rgba(249,115,22,0.15); color: var(--orange); }
+    .status-badge.cancelled { background: rgba(239,68,68,0.15); color: var(--red); }
+    .status-badge.processing { background: rgba(6,182,212,0.15); color: var(--cyan); }
+    .order-filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--border2);
+      background: var(--bg3);
+      color: var(--text2);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .search-box input {
+      flex: 1;
+      max-width: 280px;
+      padding: 9px 14px 9px 38px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+    }
+    .search-box input::placeholder { color: var(--text3); }
+    .search-box { position: relative; }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      color: var(--text3);
+      font-size: 13px;
+      pointer-events: none;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    /* ===== ADD FUNDS PAGE ===== */
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .payment-card {
+      background: var(--bg3);
+      border: 2px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 20px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .payment-card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+    .payment-card.selected { border-color: var(--accent); background: rgba(124,58,237,0.1); }
+    .payment-card .pay-icon { font-size: 28px; margin-bottom: 8px; }
+    .payment-card .pay-name { font-size: 13px; font-weight: 600; }
+    .payment-card .pay-min { font-size: 11px; color: var(--text3); margin-top: 3px; }
+    .amount-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .amount-chip {
+      padding: 8px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .amount-chip:hover { border-color: var(--accent2); color: var(--accent3); }
+    .amount-chip.active { background: var(--accent); border-color: var(--accent); color: white; }
+    .bonus-tag {
+      display: inline-block;
+      background: rgba(16,185,129,0.15);
+      color: var(--green);
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-left: 5px;
+    }
+
+    /* ===== TICKETS ===== */
+    .ticket-card {
+      display: flex;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ticket-status-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .ticket-status-dot.open { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .ticket-status-dot.closed { background: var(--text3); }
+    .ticket-status-dot.answered { background: var(--blue); box-shadow: 0 0 6px var(--blue); }
+    .ticket-info .t-subject { font-size: 14px; font-weight: 600; }
+    .ticket-info .t-meta { font-size: 12px; color: var(--text3); margin-top: 4px; }
+    .ticket-right { margin-left: auto; text-align: right; }
+    .ticket-right .t-date { font-size: 11px; color: var(--text3); }
+    .ticket-right .t-id { font-size: 12px; font-weight: 600; color: var(--accent3); margin-top: 4px; }
+
+    /* ===== ACCOUNT PAGE ===== */
+    .account-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+    }
+    .profile-card { text-align: center; }
+    .profile-avatar-lg {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 auto 16px;
+      box-shadow: 0 8px 24px rgba(124,58,237,0.4);
+    }
+    .profile-name { font-size: 18px; font-weight: 700; }
+    .profile-email { font-size: 13px; color: var(--text3); margin-top: 4px; }
+    .profile-badges { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+    .profile-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .profile-badge.vip { background: rgba(245,158,11,0.15); color: var(--gold); }
+    .profile-badge.verified { background: rgba(16,185,129,0.15); color: var(--green); }
+    .profile-badge.api { background: rgba(59,130,246,0.15); color: var(--blue); }
+    .profile-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .profile-stat {
+      background: var(--bg3);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+    }
+    .profile-stat .ps-val { font-size: 18px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+    .profile-stat .ps-label { font-size: 11px; color: var(--text3); margin-top: 3px; }
+
+    /* ===== API PAGE ===== */
+    .api-key-box {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+    }
+    .api-key-box input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--accent3);
+      font-size: 13px;
+      font-family: 'Courier New', monospace;
+      outline: none;
+    }
+    .btn-sm { padding: 7px 14px; font-size: 12px; }
+    .btn-outline {
+      background: none;
+      border: 1px solid var(--border2);
+      color: var(--text2);
+    }
+    .btn-outline:hover { border-color: var(--accent2); color: var(--text); background: rgba(124,58,237,0.1); }
+    .btn-success { background: var(--green); color: white; }
+    .btn-danger { background: var(--red); color: white; }
+    .btn-gold { background: var(--gold); color: #000; }
+    .api-endpoints { margin-top: 20px; }
+    .endpoint-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .method-badge {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0;
+      min-width: 50px;
+      text-align: center;
+    }
+    .method-badge.post { background: rgba(16,185,129,0.15); color: var(--green); }
+    .method-badge.get { background: rgba(59,130,246,0.15); color: var(--blue); }
+
+    /* ===== AFFILIATES/REFER ===== */
+    .refer-stats {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .refer-stat {
+      background: var(--bg3);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      text-align: center;
+    }
+    .refer-stat .rs-val { font-size: 22px; font-weight: 700; font-family: 'Space Grotesk', sans-serif; color: var(--accent3); }
+    .refer-stat .rs-label { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+    /* ===== CHILD PANELS ===== */
+    .child-panel-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .child-panel-icon {
+      width: 44px; height: 44px;
+      background: rgba(124,58,237,0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent3);
+      font-size: 18px;
+    }
+
+    /* ===== SUBSCRIPTION/DRIP ===== */
+    .sub-card {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .sub-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .sub-card-title { font-size: 14px; font-weight: 600; }
+    .sub-meta { font-size: 12px; color: var(--text3); }
+
+    /* ===== TOGGLE SWITCH ===== */
+    .toggle-wrap { display: flex; align-items: center; gap: 10px; }
+    .toggle {
+      width: 44px; height: 24px;
+      background: var(--bg4);
+      border-radius: 12px;
+      cursor: pointer;
+      position: relative;
+      border: 1px solid var(--border2);
+      transition: background 0.2s;
+    }
+    .toggle.on { background: var(--accent); border-color: var(--accent); }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      top: 2px; left: 2px;
+      width: 18px; height: 18px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .toggle.on::after { transform: translateX(20px); }
+
+    /* ===== SERVICES PAGE ===== */
+    .services-search {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .service-row {
+      display: grid;
+      grid-template-columns: 60px 1fr 100px 100px 100px 100px;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .service-row:hover { background: rgba(255,255,255,0.01); }
+    .service-id { color: var(--text3); font-weight: 600; }
+    .service-platform-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 3px;
+    }
+
+    /* ===== MASS ORDER ===== */
+    .mass-order-box textarea {
+      width: 100%;
+      height: 220px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 13px;
+      font-family: 'Courier New', monospace;
+      padding: 14px;
+      outline: none;
+      resize: vertical;
+    }
+    .mass-order-box textarea:focus { border-color: var(--accent); }
+
+    /* ===== ANNOUNCEMENTS ===== */
+    .announcement-card {
+      display: flex;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ann-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .ann-icon.info { background: rgba(59,130,246,0.15); color: var(--blue); }
+    .ann-icon.warning { background: rgba(245,158,11,0.15); color: var(--gold); }
+    .ann-icon.success { background: rgba(16,185,129,0.15); color: var(--green); }
+
+    /* ===== NOTIFICATIONS POPUP ===== */
+    .notif-dropdown {
+      display: none;
+      position: absolute;
+      top: 50px; right: 0;
+      width: 320px;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      z-index: 200;
+      overflow: hidden;
+    }
+    .notif-dropdown.open { display: block; }
+    .notif-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .notif-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      transition: background 0.15s;
+    }
+    .notif-item:hover { background: var(--bg3); }
+    .notif-item-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+    .notif-item-text .n-title { font-weight: 600; margin-bottom: 2px; }
+    .notif-item-text .n-sub { color: var(--text3); }
+    .notif-item-time { margin-left: auto; color: var(--text3); font-size: 11px; flex-shrink: 0; }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      padding: 28px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-close { cursor: pointer; color: var(--text3); font-size: 18px; }
+    .modal-close:hover { color: var(--text); }
+
+    /* ===== TOAST ===== */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 280px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      animation: slideIn 0.3s ease;
+    }
+    .toast.success { border-left: 3px solid var(--green); }
+    .toast.error { border-left: 3px solid var(--red); }
+    .toast.info { border-left: 3px solid var(--blue); }
+    @keyframes slideIn {
+      from { transform: translateX(100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-bar {
+      height: 6px;
+      background: var(--bg4);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+    .progress-fill.green { background: var(--green); }
+    .progress-fill.blue { background: var(--blue); }
+    .progress-fill.purple { background: var(--accent); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .order-form-grid { grid-template-columns: 1fr; }
+      .account-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .service-row { grid-template-columns: 50px 1fr 80px; }
+      .service-row .hide-mobile { display: none; }
+    }
+    .menu-toggle {
+      display: none;
+      width: 38px; height: 38px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      font-size: 16px;
+    }
+    @media (max-width: 768px) { .menu-toggle { display: flex; } }
+
+    /* ===== PAGE SECTIONS ===== */
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    /* ===== BALANCE HISTORY TABLE ===== */
+    .balance-type { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+    .type-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ===== SIDEBAR OVERLAY (mobile) ===== */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+    }
+    .sidebar-overlay.open { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- =============================== LOGIN PAGE =============================== -->
+<div class="login-page" id="loginPage">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="logo-icon">⚡</div>
+      <h1>Titan SMM</h1>
+      <p>World's Fastest SMM Panel</p>
+    </div>
+    <div class="login-tabs">
+      <button class="login-tab active" onclick="switchLoginTab('login')">Sign In</button>
+      <button class="login-tab" onclick="switchLoginTab('register')">Register</button>
+    </div>
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <div class="form-group">
+        <label>Username / Email</label>
+        <div class="input-icon">
+          <i class="fas fa-user"></i>
+          <input type="text" class="form-control" placeholder="Enter your username">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-icon">
+          <i class="fas fa-lock"></i>
+          <input type="password" class="form-control" placeholder="Enter your password">
+        </div>
+      </div>
+      <div class="forgot-link"><a href="#" onclick="showPage('forgot')">Forgot Password?</a></div>
+      <button class="btn btn-primary btn-block" onclick="doLogin()">
+        <i class="fas fa-sign-in-alt"></i> Sign In
+      </button>
+      <div class="login-footer">
+        Don't have an account? <a href="#" onclick="switchLoginTab('register')">Register Free</a>
+      </div>
+    </div>
+    <!-- REGISTER FORM -->
+    <div id="registerForm" style="display:none">
+      <div class="form-group">
+        <label>Username</label>
+        <div class="input-icon">
+          <i class="fas fa-user"></i>
+          <input type="text" class="form-control" placeholder="Choose a username">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <div class="input-icon">
+          <i class="fas fa-envelope"></i>
+          <input type="email" class="form-control" placeholder="your@email.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-icon">
+          <i class="fas fa-lock"></i>
+          <input type="password" class="form-control" placeholder="Min. 8 characters">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <div class="input-icon">
+          <i class="fas fa-lock"></i>
+          <input type="password" class="form-control" placeholder="Repeat password">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Referral Code (Optional)</label>
+        <div class="input-icon">
+          <i class="fas fa-gift"></i>
+          <input type="text" class="form-control" placeholder="Enter referral code">
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="doLogin()">
+        <i class="fas fa-user-plus"></i> Create Account
+      </button>
+      <div class="login-footer">
+        Already have an account? <a href="#" onclick="switchLoginTab('login')">Sign In</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== MAIN APP =============================== -->
+<div class="app-container" id="appContainer">
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">⚡</div>
+      <div>
+        <h2>Titan SMM</h2>
+        <span>v3.0 Premium</span>
+      </div>
+    </div>
+
+    <div class="sidebar-balance">
+      <div class="bal-label">Your Balance</div>
+      <div class="bal-amount">$0.00</div>
+      <div class="bal-sub">Total Spent: <span>$247.50</span></div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-label">Main</div>
+        <a class="nav-item active" onclick="showPage('dashboard')">
+          <span class="nav-icon"><i class="fas fa-tachometer-alt"></i></span> Dashboard
+        </a>
+        <a class="nav-item" onclick="showPage('neworder')">
+          <span class="nav-icon"><i class="fas fa-plus-circle"></i></span> New Order
+        </a>
+        <a class="nav-item" onclick="showPage('massorder')">
+          <span class="nav-icon"><i class="fas fa-layer-group"></i></span> Mass Order
+        </a>
+        <a class="nav-item" onclick="showPage('orders')">
+          <span class="nav-icon"><i class="fas fa-shopping-bag"></i></span> My Orders
+          <span class="badge">12</span>
+        </a>
+        <a class="nav-item" onclick="showPage('services')">
+          <span class="nav-icon"><i class="fas fa-th-large"></i></span> Services
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Advanced</div>
+        <a class="nav-item" onclick="showPage('subscriptions')">
+          <span class="nav-icon"><i class="fas fa-sync-alt"></i></span> Subscriptions
+        </a>
+        <a class="nav-item" onclick="showPage('dripfeed')">
+          <span class="nav-icon"><i class="fas fa-water"></i></span> Drip-Feed
+        </a>
+        <a class="nav-item" onclick="showPage('giveaways')">
+          <span class="nav-icon"><i class="fas fa-gift"></i></span> Giveaways
+          <span class="badge gold">New</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Finance</div>
+        <a class="nav-item" onclick="showPage('addfunds')">
+          <span class="nav-icon"><i class="fas fa-wallet"></i></span> Add Funds
+        </a>
+        <a class="nav-item" onclick="showPage('transfer')">
+          <span class="nav-icon"><i class="fas fa-exchange-alt"></i></span> Transfer Funds
+        </a>
+        <a class="nav-item" onclick="showPage('earn')">
+          <span class="nav-icon"><i class="fas fa-coins"></i></span> Earn
+          <span class="badge green">💰</span>
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Other</div>
+        <a class="nav-item" onclick="showPage('refer')">
+          <span class="nav-icon"><i class="fas fa-users"></i></span> Refer & Earn
+        </a>
+        <a class="nav-item" onclick="showPage('childpanels')">
+          <span class="nav-icon"><i class="fas fa-sitemap"></i></span> Child Panels
+        </a>
+        <a class="nav-item" onclick="showPage('api')">
+          <span class="nav-icon"><i class="fas fa-code"></i></span> API
+        </a>
+        <a class="nav-item" onclick="showPage('tickets')">
+          <span class="nav-icon"><i class="fas fa-headset"></i></span> Support
+          <span class="badge">3</span>
+        </a>
+        <a class="nav-item" onclick="showPage('announcements')">
+          <span class="nav-icon"><i class="fas fa-bullhorn"></i></span> News
+        </a>
+        <a class="nav-item" onclick="showPage('updates')">
+          <span class="nav-icon"><i class="fas fa-star"></i></span> Updates
+        </a>
+        <a class="nav-item" onclick="showPage('account')">
+          <span class="nav-icon"><i class="fas fa-user-cog"></i></span> Account
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="user-avatar">T</div>
+      <div class="user-info">
+        <div class="user-name">TitanUser</div>
+        <div class="user-role">Standard Plan</div>
+      </div>
+      <div class="user-actions">
+        <div class="icon-btn" onclick="doLogout()" title="Logout"><i class="fas fa-sign-out-alt"></i></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      <div class="topbar-title">
+        <h2 id="pageTitle">Dashboard</h2>
+        <p id="pageSubtitle">Welcome back, TitanUser! 👋</p>
+      </div>
+      <div class="topbar-right" style="position:relative">
+        <div class="notif-btn" onclick="toggleNotif()" id="notifBtn">
+          <i class="fas fa-bell"></i>
+          <span class="notif-dot"></span>
+          <!-- Notification Dropdown -->
+          <div class="notif-dropdown" id="notifDropdown">
+            <div class="notif-header">
+              Notifications
+              <span style="color:var(--accent3);cursor:pointer;font-weight:400;font-size:12px">Mark all read</span>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon" style="background:rgba(16,185,129,0.15);color:var(--green)"><i class="fas fa-check-circle"></i></div>
+              <div class="notif-item-text">
+                <div class="n-title">Order #4521 Completed</div>
+                <div class="n-sub">Instagram Followers — 1000 delivered</div>
+              </div>
+              <div class="notif-item-time">2m</div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon" style="background:rgba(245,158,11,0.15);color:var(--gold)"><i class="fas fa-wallet"></i></div>
+              <div class="notif-item-text">
+                <div class="n-title">Payment Received</div>
+                <div class="n-sub">$50.00 added via UPI</div>
+              </div>
+              <div class="notif-item-time">1h</div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon" style="background:rgba(59,130,246,0.15);color:var(--blue)"><i class="fas fa-ticket-alt"></i></div>
+              <div class="notif-item-text">
+                <div class="n-title">Ticket Replied</div>
+                <div class="n-sub">Support answered your query</div>
+              </div>
+              <div class="notif-item-time">3h</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="showPage('addfunds')">
+          <i class="fas fa-plus"></i> Add Funds
+        </button>
+      </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div class="page-section active" id="page-dashboard">
+        <!-- Welcome Banner -->
+        <div style="background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(168,85,247,0.1));border:1px solid rgba(124,58,237,0.25);border-radius:16px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+          <div>
+            <h3 style="font-size:20px;font-weight:700;font-family:'Space Grotesk',sans-serif">Good Day, TitanUser! ⚡</h3>
+            <p style="color:var(--text2);margin-top:5px;font-size:14px">You have 2 orders pending. Your balance is running low — <a href="#" onclick="showPage('addfunds')" style="color:var(--accent3)">Add Funds</a>.</p>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="showPage('neworder')"><i class="fas fa-plus"></i> New Order</button>
+            <button class="btn btn-outline" onclick="showPage('addfunds')"><i class="fas fa-wallet"></i> Add Funds</button>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card purple">
+            <div class="stat-icon purple"><i class="fas fa-shopping-bag"></i></div>
+            <div class="stat-value">247</div>
+            <div class="stat-label">Total Orders</div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> +12 this month</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-value">231</div>
+            <div class="stat-label">Completed</div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> 93.5% success rate</div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-icon gold"><i class="fas fa-wallet"></i></div>
+            <div class="stat-value">$0.00</div>
+            <div class="stat-label">Balance</div>
+            <div class="stat-change" style="color:var(--text3)">Spent: $247.50</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-icon blue"><i class="fas fa-sync-alt"></i></div>
+            <div class="stat-value">5</div>
+            <div class="stat-label">Active Subscriptions</div>
+            <div class="stat-change" style="color:var(--text3)">2 drip-feeds running</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-icon red"><i class="fas fa-times-circle"></i></div>
+            <div class="stat-value">3</div>
+            <div class="stat-label">Cancelled Orders</div>
+            <div class="stat-change down"><i class="fas fa-arrow-down"></i> 1.2% cancel rate</div>
+          </div>
+          <div class="stat-card cyan">
+            <div class="stat-icon cyan"><i class="fas fa-users"></i></div>
+            <div class="stat-value">17</div>
+            <div class="stat-label">Referrals</div>
+            <div class="stat-change up"><i class="fas fa-arrow-up"></i> Earned $8.50</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex-wrap:wrap">
+          <!-- Recent Orders -->
+          <div class="card">
+            <div class="card-header-row">
+              <div><div class="card-title">Recent Orders</div><div class="card-subtitle">Last 5 orders</div></div>
+              <button class="btn btn-outline btn-sm" onclick="showPage('orders')">View All</button>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>ID</th><th>Service</th><th>Qty</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td style="color:var(--text3)">#4521</td><td>IG Followers</td><td>1000</td><td><span class="status-badge completed"><i class="fas fa-circle" style="font-size:6px"></i> Done</span></td></tr>
+                  <tr><td style="color:var(--text3)">#4520</td><td>YT Views</td><td>5000</td><td><span class="status-badge inprogress"><i class="fas fa-circle" style="font-size:6px"></i> In Progress</span></td></tr>
+                  <tr><td style="color:var(--text3)">#4519</td><td>TikTok Likes</td><td>2000</td><td><span class="status-badge completed"><i class="fas fa-circle" style="font-size:6px"></i> Done</span></td></tr>
+                  <tr><td style="color:var(--text3)">#4518</td><td>FB Page Likes</td><td>500</td><td><span class="status-badge pending"><i class="fas fa-circle" style="font-size:6px"></i> Pending</span></td></tr>
+                  <tr><td style="color:var(--text3)">#4517</td><td>Twitter Followers</td><td>300</td><td><span class="status-badge completed"><i class="fas fa-circle" style="font-size:6px"></i> Done</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Announcements -->
+          <div class="card">
+            <div class="card-header-row">
+              <div><div class="card-title">Announcements</div><div class="card-subtitle">Latest updates</div></div>
+            </div>
+            <div class="announcement-card">
+              <div class="ann-icon success"><i class="fas fa-rocket"></i></div>
+              <div>
+                <div style="font-size:13px;font-weight:600">New Services Added! 🚀</div>
+                <div style="font-size:12px;color:var(--text3);margin-top:3px">100+ new YouTube & Instagram services added. Check now!</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:5px">2 hours ago</div>
+              </div>
+            </div>
+            <div class="announcement-card">
+              <div class="ann-icon info"><i class="fas fa-info-circle"></i></div>
+              <div>
+                <div style="font-size:13px;font-weight:600">Maintenance Scheduled</div>
+                <div style="font-size:12px;color:var(--text3);margin-top:3px">Site will be under maintenance Sunday 2AM–4AM IST.</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:5px">1 day ago</div>
+              </div>
+            </div>
+            <div class="announcement-card">
+              <div class="ann-icon warning"><i class="fas fa-exclamation-triangle"></i></div>
+              <div>
+                <div style="font-size:13px;font-weight:600">UPI Bonus Offer!</div>
+                <div style="font-size:12px;color:var(--text3);margin-top:3px">Add funds via UPI and get 10% bonus. Limited time!</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:5px">3 days ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== NEW ORDER ===== -->
+      <div class="page-section" id="page-neworder">
+        <div class="order-form-grid">
+          <div>
+            <div class="card">
+              <div class="card-title" style="margin-bottom:18px">Place New Order</div>
+              <div class="service-type-tabs">
+                <div class="stype-tab active">Default</div>
+                <div class="stype-tab">Subscriptions</div>
+                <div class="stype-tab">Custom Comments</div>
+                <div class="stype-tab">Mentions</div>
+                <div class="stype-tab">Drip-Feed</div>
+                <div class="stype-tab">Package</div>
+              </div>
+              <div class="form-group">
+                <label>Category</label>
+                <select class="service-selector" onchange="updateServiceSelect()">
+                  <option>— Select Category —</option>
+                  <option>🔵 Instagram</option>
+                  <option>🔴 YouTube</option>
+                  <option>🎵 TikTok</option>
+                  <option>🐦 Twitter / X</option>
+                  <option>👍 Facebook</option>
+                  <option>💼 LinkedIn</option>
+                  <option>📸 Snapchat</option>
+                  <option>🎮 Twitch</option>
+                  <option>📱 Telegram</option>
+                  <option>📌 Pinterest</option>
+                  <option>🎬 Spotify</option>
+                  <option>⭐ Google Reviews</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Service</label>
+                <select class="service-selector" id="serviceSelect" onchange="updateServiceInfo()">
+                  <option value="">— Select Service —</option>
+                  <option value="ig_followers_100" data-price="0.50" data-min="100" data-max="100000">Instagram Followers [Real - HQ] ⭐</option>
+                  <option value="ig_likes_100" data-price="0.20" data-min="50" data-max="50000">Instagram Likes [Instant]</option>
+                  <option value="ig_views" data-price="0.10" data-min="100" data-max="500000">Instagram Video Views [Fast]</option>
+                  <option value="yt_views" data-price="0.80" data-min="500" data-max="1000000">YouTube Views [Real IP]</option>
+                  <option value="tt_followers" data-price="0.60" data-min="100" data-max="100000">TikTok Followers [Active]</option>
+                </select>
+              </div>
+              <div class="service-info-box" id="serviceInfoBox" style="display:none">
+                <div class="info-row"><span class="label">Rate per 1000</span><span class="val" id="svc-rate">—</span></div>
+                <div class="info-row"><span class="label">Min Order</span><span class="val" id="svc-min">—</span></div>
+                <div class="info-row"><span class="label">Max Order</span><span class="val" id="svc-max">—</span></div>
+                <div class="info-row"><span class="label">Average Time</span><span class="val">1–6 hours</span></div>
+                <div class="info-row"><span class="label">Refill</span><span class="val" style="color:var(--green)">✓ 30 Days</span></div>
+              </div>
+              <div class="form-group" style="margin-top:14px">
+                <label>Link / URL</label>
+                <div class="input-icon">
+                  <i class="fas fa-link"></i>
+                  <input type="url" class="form-control" id="orderLink" placeholder="https://instagram.com/username">
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Quantity</label>
+                <input type="number" class="form-control" id="orderQty" value="100" min="1" oninput="calcPrice()">
+              </div>
+              <div class="form-group">
+                <label>Runs (Drip-Feed) <span style="color:var(--text3);font-weight:400">optional</span></label>
+                <input type="number" class="form-control" placeholder="e.g. 10 runs of 100 each">
+              </div>
+              <div class="form-group">
+                <label>Interval (minutes) <span style="color:var(--text3);font-weight:400">optional</span></label>
+                <input type="number" class="form-control" placeholder="e.g. 30 mins between runs">
+              </div>
+              <button class="btn btn-primary" style="width:100%;margin-top:4px;padding:14px" onclick="placeOrder()">
+                <i class="fas fa-bolt"></i> Place Order Now
+              </button>
+            </div>
+          </div>
+          <!-- ORDER SUMMARY -->
+          <div class="order-summary-card">
+            <h4><i class="fas fa-receipt" style="color:var(--accent3)"></i> Order Summary</h4>
+            <div class="summary-row"><span class="s-label">Service</span><span class="s-val" id="sum-service">—</span></div>
+            <div class="summary-row"><span class="s-label">Quantity</span><span class="s-val" id="sum-qty">—</span></div>
+            <div class="summary-row"><span class="s-label">Rate/1000</span><span class="s-val" id="sum-rate">—</span></div>
+            <div class="summary-row"><span class="s-label">Your Balance</span><span class="s-val" style="color:var(--red)">$0.00</span></div>
+            <div class="summary-total">
+              <span>Total</span>
+              <span class="total-price" id="sum-total">$0.00</span>
+            </div>
+            <button class="btn btn-primary" style="width:100%;margin-top:18px" onclick="placeOrder()">
+              <i class="fas fa-check"></i> Confirm Order
+            </button>
+            <div style="margin-top:16px;background:var(--bg4);border-radius:8px;padding:12px;font-size:12px;color:var(--text3)">
+              <i class="fas fa-shield-alt" style="color:var(--green);margin-right:6px"></i>Secure payment. Your data is safe.<br>
+              <i class="fas fa-redo" style="color:var(--blue);margin-right:6px;margin-top:6px"></i>Refill guarantee on eligible services.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== MASS ORDER ===== -->
+      <div class="page-section" id="page-massorder">
+        <div class="card" style="max-width:700px">
+          <div class="card-title" style="margin-bottom:6px">Mass Order</div>
+          <div style="font-size:13px;color:var(--text3);margin-bottom:18px">Place multiple orders at once. One order per line.</div>
+          <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:8px;padding:12px 14px;font-size:12px;margin-bottom:16px;color:var(--gold)">
+            <i class="fas fa-info-circle"></i> Format: <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px">service_id | link | quantity</code><br>
+            Example: <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px">101 | https://instagram.com/page | 500</code>
+          </div>
+          <div class="mass-order-box form-group">
+            <label>Orders (One per line)</label>
+            <textarea placeholder="101 | https://instagram.com/page | 500&#10;205 | https://youtube.com/watch?v=xyz | 1000&#10;310 | https://tiktok.com/@user | 200"></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="showToast('success','Mass orders submitted successfully!')">
+            <i class="fas fa-paper-plane"></i> Submit Mass Orders
+          </button>
+        </div>
+      </div>
+
+      <!-- ===== MY ORDERS ===== -->
+      <div class="page-section" id="page-orders">
+        <div class="card">
+          <div class="card-header-row" style="flex-wrap:wrap;gap:12px">
+            <div><div class="card-title">My Orders</div><div class="card-subtitle">Track all your orders</div></div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <div style="position:relative">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Search orders..." style="padding:8px 14px 8px 36px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-size:13px;outline:none;font-family:inherit;width:220px">
+              </div>
+              <button class="btn btn-outline btn-sm"><i class="fas fa-copy"></i> Copy Selected</button>
+            </div>
+          </div>
+          <div class="order-filters">
+            <button class="filter-btn active"><i class="fas fa-list"></i> All (247)</button>
+            <button class="filter-btn"><i class="fas fa-clock" style="color:var(--gold)"></i> Pending (2)</button>
+            <button class="filter-btn"><i class="fas fa-spinner" style="color:var(--blue)"></i> In Progress (8)</button>
+            <button class="filter-btn"><i class="fas fa-check" style="color:var(--green)"></i> Completed (231)</button>
+            <button class="filter-btn"><i class="fas fa-battery-half" style="color:var(--orange)"></i> Partial (3)</button>
+            <button class="filter-btn"><i class="fas fa-ban" style="color:var(--red)"></i> Cancelled (3)</button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th><input type="checkbox"></th><th>ID</th><th>Date</th><th>Service</th><th>Link</th><th>Qty</th><th>Remains</th><th>Charge</th><th>Status</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><input type="checkbox"></td>
+                  <td style="color:var(--accent3);font-weight:600">#4521</td>
+                  <td style="color:var(--text3);font-size:12px">Jun 12, 2026</td>
+                  <td>Instagram Followers [Real]</td>
+                  <td style="color:var(--blue);font-size:12px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">instagram.com/titansmm</td>
+                  <td>1,000</td>
+                  <td style="color:var(--green)">0</td>
+                  <td>$0.50</td>
+                  <td><span class="status-badge completed"><i class="fas fa-circle" style="font-size:6px"></i> Completed</span></td>
+                  <td><button class="btn btn-outline btn-sm" onclick="showRefillModal()"><i class="fas fa-redo"></i></button></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"></td>
+                  <td style="color:var(--accent3);font-weight:600">#4520</td>
+                  <td style="color:var(--text3);font-size:12px">Jun 12, 2026</td>
+                  <td>YouTube Views [Real IP]</td>
+                  <td style="color:var(--blue);font-size:12px">youtube.com/watch?v=abc</td>
+                  <td>5,000</td>
+                  <td style="color:var(--gold)">2,100</td>
+                  <td>$4.00</td>
+                  <td><span class="status-badge inprogress"><i class="fas fa-circle" style="font-size:6px"></i> In Progress</span></td>
+                  <td><button class="btn btn-outline btn-sm"><i class="fas fa-times"></i></button></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"></td>
+                  <td style="color:var(--accent3);font-weight:600">#4519</td>
+                  <td style="color:var(--text3);font-size:12px">Jun 11, 2026</td>
+                  <td>TikTok Likes [Instant]</td>
+                  <td style="color:var(--blue);font-size:12px">tiktok.com/@user/video/123</td>
+                  <td>2,000</td>
+                  <td style="color:var(--green)">0</td>
+                  <td>$0.40</td>
+                  <td><span class="status-badge completed"><i class="fas fa-circle" style="font-size:6px"></i> Completed</span></td>
+                  <td><button class="btn btn-outline btn-sm"><i class="fas fa-redo"></i></button></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"></td>
+                  <td style="color:var(--accent3);font-weight:600">#4518</td>
+                  <td style="color:var(--text3);font-size:12px">Jun 11, 2026</td>
+                  <td>Facebook Page Likes</td>
+                  <td style="color:var(--blue);font-size:12px">facebook.com/yourpage</td>
+                  <td>500</td>
+                  <td style="color:var(--gold)">500</td>
+                  <td>$1.00</td>
+                  <td><span class="status-badge pending"><i class="fas fa-circle" style="font-size:6px"></i> Pending</span></td>
+                  <td><button class="btn btn-outline btn-sm"><i class="fas fa-times"></i></button></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"></td>
+                  <td style="color:var(--accent3);font-weight:600">#4517</td>
+                  <td style="color:var(--text3);font-size:12px">Jun 10, 2026</td>
+                  <td>Twitter Followers [Real]</td>
+                  <td style="color:var(--blue);font-size:12px">twitter.com/handle</td>
+                  <td>300</td>
+                  <td style="color:var(--green)">0</td>
+                  <td>$0.30</td>
+                  <td><span class="status-badge completed"><i class="fas fa-circle" style="font-size:6px"></i> Completed</span></td>
+                  <td><button class="btn btn-outline btn-sm"><i class="fas fa-redo"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SERVICES ===== -->
+      <div class="page-section" id="page-services">
+        <div class="card">
+          <div class="card-header-row">
+            <div><div class="card-title">All Services</div><div class="card-subtitle">Browse 500+ services</div></div>
+          </div>
+          <div class="services-search">
+            <div style="position:relative;flex:1;max-width:300px">
+              <i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px"></i>
+              <input type="text" placeholder="Search services..." style="width:100%;padding:9px 14px 9px 38px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-size:13px;outline:none;font-family:inherit">
+            </div>
+            <select class="service-selector" style="max-width:180px">
+              <option>All Platforms</option>
+              <option>Instagram</option>
+              <option>YouTube</option>
+              <option>TikTok</option>
+              <option>Twitter</option>
+              <option>Facebook</option>
+            </select>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>ID</th><th>Service Name</th><th>Rate/1000</th><th>Min</th><th>Max</th><th>Type</th><th></th></tr></thead>
+              <tbody>
+                <tr><td style="color:var(--text3)">101</td><td><div>Instagram Followers [Real HQ] ⭐</div><div class="service-platform-tag"><i class="fas fa-circle" style="color:#e1306c;font-size:8px"></i> Instagram</div></td><td style="color:var(--accent3)">$0.50</td><td>100</td><td>100,000</td><td><span class="status-badge completed">Default</span></td><td><button class="btn btn-primary btn-sm" onclick="showPage('neworder')">Order</button></td></tr>
+                <tr><td style="color:var(--text3)">102</td><td><div>Instagram Likes [Instant]</div><div class="service-platform-tag"><i class="fas fa-circle" style="color:#e1306c;font-size:8px"></i> Instagram</div></td><td style="color:var(--accent3)">$0.20</td><td>50</td><td>50,000</td><td><span class="status-badge completed">Default</span></td><td><button class="btn btn-primary btn-sm" onclick="showPage('neworder')">Order</button></td></tr>
+                <tr><td style="color:var(--text3)">201</td><td><div>YouTube Views [Real IP]</div><div class="service-platform-tag"><i class="fas fa-circle" style="color:#ff0000;font-size:8px"></i> YouTube</div></td><td style="color:var(--accent3)">$0.80</td><td>500</td><td>1,000,000</td><td><span class="status-badge inprogress">Drip-Feed</span></td><td><button class="btn btn-primary btn-sm" onclick="showPage('neworder')">Order</button></td></tr>
+                <tr><td style="color:var(--text3)">301</td><td><div>TikTok Followers [Active]</div><div class="service-platform-tag"><i class="fas fa-circle" style="color:#69c9d0;font-size:8px"></i> TikTok</div></td><td style="color:var(--accent3)">$0.60</td><td>100</td><td>100,000</td><td><span class="status-badge completed">Default</span></td><td><button class="btn btn-primary btn-sm" onclick="showPage('neworder')">Order</button></td></tr>
+                <tr><td style="color:var(--text3)">401</td><td><div>Twitter Followers [Real]</div><div class="service-platform-tag"><i class="fas fa-circle" style="color:#1da1f2;font-size:8px"></i> Twitter</div></td><td style="color:var(--accent3)">$1.00</td><td>50</td><td>50,000</td><td><span class="status-badge completed">Default</span></td><td><button class="btn btn-primary btn-sm" onclick="showPage('neworder')">Order</button></td></tr>
+                <tr><td style="color:var(--text3)">501</td><td><div>Facebook Page Likes</div><div class="service-platform-tag"><i class="fas fa-circle" style="color:#1877f2;font-size:8px"></i> Facebook</div></td><td style="color:var(--accent3)">$2.00</td><td>100</td><td>50,000</td><td><span class="status-badge pending">Package</span></td><td><button class="btn btn-primary btn-sm" onclick="showPage('neworder')">Order</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ADD FUNDS ===== -->
+      <div class="page-section" id="page-addfunds">
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;flex-wrap:wrap">
+          <div>
+            <div class="card" style="margin-bottom:20px">
+              <div class="card-title" style="margin-bottom:6px">Select Payment Method</div>
+              <div style="font-size:13px;color:var(--text3);margin-bottom:18px">Choose your preferred payment gateway</div>
+              <div class="payment-grid">
+                <div class="payment-card selected" onclick="selectPay(this)">
+                  <div class="pay-icon">📱</div>
+                  <div class="pay-name">UPI / GPay</div>
+                  <div class="pay-min">Min: $1</div>
+                </div>
+                <div class="payment-card" onclick="selectPay(this)">
+                  <div class="pay-icon">💳</div>
+                  <div class="pay-name">Razorpay</div>
+                  <div class="pay-min">Min: $2</div>
+                </div>
+                <div class="payment-card" onclick="selectPay(this)">
+                  <div class="pay-icon">🏦</div>
+                  <div class="pay-name">PayTM</div>
+                  <div class="pay-min">Min: $1</div>
+                </div>
+                <div class="payment-card" onclick="selectPay(this)">
+                  <div class="pay-icon">₿</div>
+                  <div class="pay-name">Crypto</div>
+                  <div class="pay-min">Min: $5</div>
+                </div>
+                <div class="payment-card" onclick="selectPay(this)">
+                  <div class="pay-icon">💸</div>
+                  <div class="pay-name">Instamojo</div>
+                  <div class="pay-min">Min: $1</div>
+                </div>
+                <div class="payment-card" onclick="selectPay(this)">
+                  <div class="pay-icon">🌐</div>
+                  <div class="pay-name">Stripe</div>
+                  <div class="pay-min">Min: $5</div>
+                </div>
+                <div class="payment-card" onclick="selectPay(this)">
+                  <div class="pay-icon">💰</div>
+                  <div class="pay-name">Payeer</div>
+                  <div class="pay-min">Min: $1</div>
+                </div>
+                <div class="payment-card" onclick="selectPay(this)">
+                  <div class="pay-icon">🏧</div>
+                  <div class="pay-name">Bank Transfer</div>
+                  <div class="pay-min">Min: $10</div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title" style="margin-bottom:18px">Enter Amount</div>
+              <div class="amount-chips">
+                <div class="amount-chip" onclick="setAmount(5,this)">$5</div>
+                <div class="amount-chip active" onclick="setAmount(10,this)">$10 <span class="bonus-tag">+2%</span></div>
+                <div class="amount-chip" onclick="setAmount(25,this)">$25 <span class="bonus-tag">+5%</span></div>
+                <div class="amount-chip" onclick="setAmount(50,this)">$50 <span class="bonus-tag">+8%</span></div>
+                <div class="amount-chip" onclick="setAmount(100,this)">$100 <span class="bonus-tag">+12%</span></div>
+                <div class="amount-chip" onclick="setAmount(250,this)">$250 <span class="bonus-tag">+18%</span></div>
+              </div>
+              <div class="form-group">
+                <label>Custom Amount (USD)</label>
+                <div class="input-icon">
+                  <i class="fas fa-dollar-sign"></i>
+                  <input type="number" class="form-control" id="fundAmount" value="10" placeholder="Enter amount">
+                </div>
+              </div>
+              <button class="btn btn-primary" style="width:100%;padding:14px" onclick="showToast('info','Redirecting to payment gateway...')">
+                <i class="fas fa-lock"></i> Proceed to Payment
+              </button>
+            </div>
+          </div>
+          <!-- Balance History -->
+          <div class="card">
+            <div class="card-title" style="margin-bottom:16px">Balance History</div>
+            <table style="font-size:12px">
+              <thead><tr><th>Date</th><th>Amount</th><th>Type</th></tr></thead>
+              <tbody>
+                <tr><td>Jun 12</td><td style="color:var(--green)">+$50</td><td><span class="status-badge completed" style="font-size:10px">Payment</span></td></tr>
+                <tr><td>Jun 11</td><td style="color:var(--red)">-$4.00</td><td><span class="status-badge inprogress" style="font-size:10px">Order</span></td></tr>
+                <tr><td>Jun 10</td><td style="color:var(--red)">-$0.50</td><td><span class="status-badge inprogress" style="font-size:10px">Order</span></td></tr>
+                <tr><td>Jun 9</td><td style="color:var(--green)">+$100</td><td><span class="status-badge completed" style="font-size:10px">Payment</span></td></tr>
+                <tr><td>Jun 8</td><td style="color:var(--green)">+$2.50</td><td><span class="status-badge" style="background:rgba(245,158,11,0.15);color:var(--gold);font-size:10px">Bonus</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SUBSCRIPTIONS ===== -->
+      <div class="page-section" id="page-subscriptions">
+        <div class="card">
+          <div class="card-header-row">
+            <div><div class="card-title">My Subscriptions</div><div class="card-subtitle">Auto-renewing orders</div></div>
+          </div>
+          <div class="sub-card">
+            <div class="sub-card-header">
+              <div>
+                <div class="sub-card-title">Instagram Followers — Daily 100</div>
+                <div class="sub-meta">Link: instagram.com/mypage · Every: 24 hours</div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <span class="status-badge completed">Active</span>
+                <button class="btn btn-outline btn-sm">Pause</button>
+                <button class="btn btn-danger btn-sm">Stop</button>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text3);display:flex;gap:20px;flex-wrap:wrap">
+              <span>Started: Jun 1, 2026</span>
+              <span>Orders placed: 11</span>
+              <span style="color:var(--gold)">Total spent: $5.50</span>
+            </div>
+            <div class="progress-bar" style="margin-top:10px">
+              <div class="progress-fill purple" style="width:73%"></div>
+            </div>
+          </div>
+          <div class="sub-card">
+            <div class="sub-card-header">
+              <div>
+                <div class="sub-card-title">YouTube Views — 500/day</div>
+                <div class="sub-meta">Link: youtube.com/channel · Every: 24 hours</div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <span class="status-badge pending">Paused</span>
+                <button class="btn btn-success btn-sm">Resume</button>
+                <button class="btn btn-danger btn-sm">Stop</button>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text3)">Started: May 20, 2026 · Orders placed: 22 · <span style="color:var(--gold)">Total: $17.60</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== DRIP FEED ===== -->
+      <div class="page-section" id="page-dripfeed">
+        <div class="card">
+          <div class="card-header-row">
+            <div><div class="card-title">Drip-Feed Orders</div><div class="card-subtitle">Scheduled delivery</div></div>
+          </div>
+          <div class="order-filters">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Active</button>
+            <button class="filter-btn">Completed</button>
+            <button class="filter-btn">Cancelled</button>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>ID</th><th>Service</th><th>Link</th><th>Runs</th><th>Progress</th><th>Status</th><th></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td style="color:var(--accent3)">#3401</td>
+                  <td>IG Followers Drip</td>
+                  <td style="color:var(--blue);font-size:12px">instagram.com/page</td>
+                  <td>7 / 30</td>
+                  <td style="width:120px">
+                    <div style="font-size:11px;color:var(--text3);margin-bottom:3px">23%</div>
+                    <div class="progress-bar"><div class="progress-fill blue" style="width:23%"></div></div>
+                  </td>
+                  <td><span class="status-badge inprogress">Active</span></td>
+                  <td><button class="btn btn-outline btn-sm">Cancel</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== GIVEAWAYS ===== -->
+      <div class="page-section" id="page-giveaways">
+        <div class="card" style="text-align:center;padding:48px">
+          <div style="font-size:48px;margin-bottom:16px">🎁</div>
+          <h3 style="font-size:22px;font-weight:700;margin-bottom:8px">Giveaways</h3>
+          <p style="color:var(--text3);max-width:400px;margin:0 auto 24px">Participate in giveaways to win free SMM credits and services. New giveaways posted regularly!</p>
+          <div style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(245,158,11,0.1));border:1px solid rgba(124,58,237,0.2);border-radius:12px;padding:20px;max-width:400px;margin:0 auto">
+            <div style="font-size:13px;color:var(--text3);margin-bottom:4px">Current Giveaway</div>
+            <div style="font-size:20px;font-weight:700;color:var(--gold)">Win $50 Credits!</div>
+            <div style="font-size:12px;color:var(--text3);margin:8px 0">Follow our Telegram channel & repost</div>
+            <button class="btn btn-gold btn-sm" onclick="showToast('success','You\'ve entered the giveaway! Good luck! 🎉')">Enter Giveaway</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TRANSFER FUNDS ===== -->
+      <div class="page-section" id="page-transfer">
+        <div class="card" style="max-width:500px">
+          <div class="card-title" style="margin-bottom:6px">Transfer Funds</div>
+          <div style="font-size:13px;color:var(--text3);margin-bottom:20px">Send balance to another Titan SMM user</div>
+          <div class="form-group">
+            <label>Recipient Username</label>
+            <div class="input-icon">
+              <i class="fas fa-user"></i>
+              <input type="text" class="form-control" placeholder="Enter username">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Amount (USD)</label>
+            <div class="input-icon">
+              <i class="fas fa-dollar-sign"></i>
+              <input type="number" class="form-control" placeholder="Min. $1">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Note (Optional)</label>
+            <input type="text" class="form-control" placeholder="Add a note...">
+          </div>
+          <button class="btn btn-primary" onclick="showToast('success','Funds transferred successfully!')">
+            <i class="fas fa-paper-plane"></i> Transfer Funds
+          </button>
+        </div>
+      </div>
+
+      <!-- ===== EARN ===== -->
+      <div class="page-section" id="page-earn">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-bottom:24px">
+          <div class="card" style="text-align:center;border:1px solid rgba(245,158,11,0.3)">
+            <div style="font-size:32px;margin-bottom:10px">📣</div>
+            <div style="font-size:15px;font-weight:700">Refer & Earn</div>
+            <div style="font-size:12px;color:var(--text3);margin:8px 0">Earn 5% commission on every referral's purchase</div>
+            <button class="btn btn-gold btn-sm" onclick="showPage('refer')">View Details</button>
+          </div>
+          <div class="card" style="text-align:center;border:1px solid rgba(16,185,129,0.3)">
+            <div style="font-size:32px;margin-bottom:10px">✅</div>
+            <div style="font-size:15px;font-weight:700">Daily Check-in</div>
+            <div style="font-size:12px;color:var(--text3);margin:8px 0">Login daily and earn up to $0.50 free credits</div>
+            <button class="btn btn-success btn-sm" onclick="showToast('success','Daily check-in bonus: $0.10 added!')">Check In</button>
+          </div>
+          <div class="card" style="text-align:center;border:1px solid rgba(124,58,237,0.3)">
+            <div style="font-size:32px;margin-bottom:10px">🎯</div>
+            <div style="font-size:15px;font-weight:700">Complete Tasks</div>
+            <div style="font-size:12px;color:var(--text3);margin:8px 0">Follow our social accounts and earn free credits</div>
+            <button class="btn btn-primary btn-sm">View Tasks</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== REFER ===== -->
+      <div class="page-section" id="page-refer">
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-title" style="margin-bottom:16px">Your Referral Link</div>
+          <div class="api-key-box" style="margin-bottom:16px">
+            <i class="fas fa-link" style="color:var(--text3)"></i>
+            <input type="text" value="https://titansmm.com/ref/TitanUser123" readonly>
+            <button class="btn btn-primary btn-sm" onclick="showToast('success','Link copied!')"><i class="fas fa-copy"></i> Copy</button>
+          </div>
+          <div class="refer-stats">
+            <div class="refer-stat"><div class="rs-val">17</div><div class="rs-label">Total Referrals</div></div>
+            <div class="refer-stat"><div class="rs-val">$8.50</div><div class="rs-label">Total Earned</div></div>
+            <div class="refer-stat"><div class="rs-val">$0.00</div><div class="rs-label">Pending Payout</div></div>
+          </div>
+          <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:12px 14px;font-size:13px;margin-top:4px">
+            <i class="fas fa-star" style="color:var(--gold)"></i> Earn <strong>5% commission</strong> on every purchase made by your referrals. Minimum payout: $5.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px">Referral History</div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>User</th><th>Joined</th><th>Orders</th><th>You Earned</th></tr></thead>
+              <tbody>
+                <tr><td>user***123</td><td>Jun 10</td><td>5</td><td style="color:var(--green)">$1.20</td></tr>
+                <tr><td>smm***pro</td><td>Jun 8</td><td>12</td><td style="color:var(--green)">$3.50</td></tr>
+                <tr><td>dig***tal</td><td>Jun 5</td><td>3</td><td style="color:var(--green)">$0.80</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CHILD PANELS ===== -->
+      <div class="page-section" id="page-childpanels">
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-header-row">
+            <div><div class="card-title">Child Panels</div><div class="card-subtitle">Reseller / sub-panel management</div></div>
+            <button class="btn btn-primary btn-sm" onclick="document.getElementById('addChildModal').classList.add('open')"><i class="fas fa-plus"></i> Add Panel</button>
+          </div>
+          <div class="child-panel-card">
+            <div class="child-panel-icon"><i class="fas fa-sitemap"></i></div>
+            <div>
+              <div style="font-size:14px;font-weight:600">MySMMPanel.com</div>
+              <div style="font-size:12px;color:var(--text3);margin-top:3px">API: https://mysmmreseller.com/api/v2 · Markup: 30%</div>
+            </div>
+            <div style="margin-left:auto;display:flex;gap:8px">
+              <span class="status-badge completed">Active</span>
+              <button class="btn btn-outline btn-sm">Edit</button>
+            </div>
+          </div>
+        </div>
+        <!-- Add Child Modal -->
+        <div class="modal-overlay" id="addChildModal">
+          <div class="modal-box">
+            <div class="modal-title">Add Child Panel <span class="modal-close" onclick="document.getElementById('addChildModal').classList.remove('open')">✕</span></div>
+            <div class="form-group"><label>Panel Name</label><input type="text" class="form-control" placeholder="MySMMPanel"></div>
+            <div class="form-group"><label>API URL</label><input type="text" class="form-control" placeholder="https://yourpanel.com/api/v2"></div>
+            <div class="form-group"><label>API Key</label><input type="text" class="form-control" placeholder="Your panel API key"></div>
+            <div class="form-group"><label>Price Markup (%)</label><input type="number" class="form-control" placeholder="e.g. 20" value="20"></div>
+            <button class="btn btn-primary btn-block" onclick="document.getElementById('addChildModal').classList.remove('open');showToast('success','Child panel added!')">Add Panel</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== API ===== -->
+      <div class="page-section" id="page-api">
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-title" style="margin-bottom:16px">API Access</div>
+          <div style="font-size:13px;color:var(--text3);margin-bottom:14px">Use our API to integrate Titan SMM into your panel or app.</div>
+          <div class="form-group">
+            <label>Your API Key</label>
+            <div class="api-key-box">
+              <i class="fas fa-key" style="color:var(--text3)"></i>
+              <input type="text" value="tk_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxx" readonly id="apiKeyInput">
+              <button class="btn btn-outline btn-sm" onclick="showToast('success','API key copied!')"><i class="fas fa-copy"></i></button>
+              <button class="btn btn-danger btn-sm" onclick="showToast('info','New API key generated!')"><i class="fas fa-sync-alt"></i></button>
+            </div>
+          </div>
+          <div style="font-size:13px;color:var(--text3);">API Base URL: <code style="background:var(--bg4);padding:3px 8px;border-radius:4px;color:var(--accent3)">https://titansmm.com/api/v2</code></div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px">API Endpoints</div>
+          <div class="api-endpoints">
+            <div class="endpoint-row"><span class="method-badge post">POST</span><span>Services List</span><code style="background:var(--bg4);padding:2px 8px;border-radius:4px;font-size:12px;margin-left:auto;color:var(--text3)">action=services</code></div>
+            <div class="endpoint-row"><span class="method-badge post">POST</span><span>Add Order</span><code style="background:var(--bg4);padding:2px 8px;border-radius:4px;font-size:12px;margin-left:auto;color:var(--text3)">action=add</code></div>
+            <div class="endpoint-row"><span class="method-badge post">POST</span><span>Order Status</span><code style="background:var(--bg4);padding:2px 8px;border-radius:4px;font-size:12px;margin-left:auto;color:var(--text3)">action=status</code></div>
+            <div class="endpoint-row"><span class="method-badge post">POST</span><span>Multiple Status</span><code style="background:var(--bg4);padding:2px 8px;border-radius:4px;font-size:12px;margin-left:auto;color:var(--text3)">action=status&orders=1,2,3</code></div>
+            <div class="endpoint-row"><span class="method-badge post">POST</span><span>User Balance</span><code style="background:var(--bg4);padding:2px 8px;border-radius:4px;font-size:12px;margin-left:auto;color:var(--text3)">action=balance</code></div>
+            <div class="endpoint-row"><span class="method-badge post">POST</span><span>Cancel Order</span><code style="background:var(--bg4);padding:2px 8px;border-radius:4px;font-size:12px;margin-left:auto;color:var(--text3)">action=cancel</code></div>
+            <div class="endpoint-row"><span class="method-badge post">POST</span><span>Refill Order</span><code style="background:var(--bg4);padding:2px 8px;border-radius:4px;font-size:12px;margin-left:auto;color:var(--text3)">action=refill</code></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SUPPORT TICKETS ===== -->
+      <div class="page-section" id="page-tickets">
+        <div class="card">
+          <div class="card-header-row">
+            <div><div class="card-title">Support Tickets</div><div class="card-subtitle">Get help from our team</div></div>
+            <button class="btn btn-primary btn-sm" onclick="document.getElementById('newTicketModal').classList.add('open')"><i class="fas fa-plus"></i> New Ticket</button>
+          </div>
+          <div class="ticket-card">
+            <div class="ticket-status-dot answered"></div>
+            <div class="ticket-info">
+              <div class="t-subject">Payment not added to account</div>
+              <div class="t-meta">Category: Billing · 2 messages</div>
+            </div>
+            <div class="ticket-right">
+              <div class="t-date">Jun 12, 2026</div>
+              <div class="t-id">#TK-1041</div>
+              <span class="status-badge inprogress" style="font-size:10px;margin-top:4px">Answered</span>
+            </div>
+          </div>
+          <div class="ticket-card">
+            <div class="ticket-status-dot open"></div>
+            <div class="ticket-info">
+              <div class="t-subject">Order stuck in pending for 2 hours</div>
+              <div class="t-meta">Category: Orders · 1 message</div>
+            </div>
+            <div class="ticket-right">
+              <div class="t-date">Jun 11, 2026</div>
+              <div class="t-id">#TK-1040</div>
+              <span class="status-badge completed" style="font-size:10px;margin-top:4px">Open</span>
+            </div>
+          </div>
+          <div class="ticket-card">
+            <div class="ticket-status-dot closed"></div>
+            <div class="ticket-info">
+              <div class="t-subject">Requesting API rate limit increase</div>
+              <div class="t-meta">Category: API · 4 messages</div>
+            </div>
+            <div class="ticket-right">
+              <div class="t-date">Jun 8, 2026</div>
+              <div class="t-id">#TK-1036</div>
+              <span class="status-badge cancelled" style="font-size:10px;margin-top:4px">Closed</span>
+            </div>
+          </div>
+        </div>
+        <!-- New Ticket Modal -->
+        <div class="modal-overlay" id="newTicketModal">
+          <div class="modal-box">
+            <div class="modal-title">Open New Ticket <span class="modal-close" onclick="document.getElementById('newTicketModal').classList.remove('open')">✕</span></div>
+            <div class="form-group">
+              <label>Subject</label>
+              <select class="form-control" style="background:var(--bg3)">
+                <option>Billing Issue</option>
+                <option>Order Problem</option>
+                <option>Technical Issue</option>
+                <option>API Support</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea class="form-control" rows="5" placeholder="Describe your issue..."></textarea>
+            </div>
+            <button class="btn btn-primary btn-block" onclick="document.getElementById('newTicketModal').classList.remove('open');showToast('success','Ticket submitted! We\'ll reply within 24h.')">Submit Ticket</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ANNOUNCEMENTS ===== -->
+      <div class="page-section" id="page-announcements">
+        <div class="card">
+          <div class="card-title" style="margin-bottom:20px">Announcements & News</div>
+          <div class="announcement-card">
+            <div class="ann-icon success"><i class="fas fa-rocket"></i></div>
+            <div>
+              <div style="font-size:14px;font-weight:600">🚀 100+ New Services Added</div>
+              <div style="font-size:13px;color:var(--text2);margin-top:6px">We've added over 100 new services including YouTube Shorts Views, Instagram Reels Plays, and more. Check the Services page!</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:8px">June 12, 2026</div>
+            </div>
+          </div>
+          <div class="announcement-card">
+            <div class="ann-icon info"><i class="fas fa-wrench"></i></div>
+            <div>
+              <div style="font-size:14px;font-weight:600">Scheduled Maintenance</div>
+              <div style="font-size:13px;color:var(--text2);margin-top:6px">Site will be under scheduled maintenance on Sunday June 14, 2AM–4AM IST. Orders placed during this period will be processed automatically after.</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:8px">June 11, 2026</div>
+            </div>
+          </div>
+          <div class="announcement-card">
+            <div class="ann-icon warning"><i class="fas fa-tag"></i></div>
+            <div>
+              <div style="font-size:14px;font-weight:600">💥 UPI Bonus — 10% Extra!</div>
+              <div style="font-size:13px;color:var(--text2);margin-top:6px">Add funds via UPI this week and get 10% bonus on any amount above $10. Offer valid till June 15!</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:8px">June 9, 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== UPDATES ===== -->
+      <div class="page-section" id="page-updates">
+        <div class="card">
+          <div class="card-title" style="margin-bottom:20px">Panel Updates</div>
+          <div style="display:flex;flex-direction:column;gap:0">
+            <div style="display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)">
+              <div style="text-align:center;flex-shrink:0;width:60px"><span style="background:var(--accent);color:white;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700">v3.0</span></div>
+              <div><div style="font-weight:600">Major UI Overhaul + Drip-Feed Engine</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Complete redesign, new drip-feed engine, 8 new payment gateways added.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">June 1, 2026</div></div>
+            </div>
+            <div style="display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)">
+              <div style="text-align:center;flex-shrink:0;width:60px"><span style="background:var(--blue);color:white;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700">v2.5</span></div>
+              <div><div style="font-weight:600">Child Panel & API Improvements</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Child panel manager, mass order feature, Telegram notifications added.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">April 15, 2026</div></div>
+            </div>
+            <div style="display:flex;gap:16px;padding:16px 0">
+              <div style="text-align:center;flex-shrink:0;width:60px"><span style="background:var(--green);color:white;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700">v2.0</span></div>
+              <div><div style="font-weight:600">Subscriptions & Giveaways</div><div style="font-size:12px;color:var(--text3);margin-top:4px">Subscription orders, giveaway system, referral program v2 launched.</div><div style="font-size:11px;color:var(--text3);margin-top:6px">February 20, 2026</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ACCOUNT ===== -->
+      <div class="page-section" id="page-account">
+        <div class="account-grid">
+          <div>
+            <div class="card profile-card" style="margin-bottom:16px">
+              <div class="profile-avatar-lg">T</div>
+              <div class="profile-name">TitanUser</div>
+              <div class="profile-email">titanuser@email.com</div>
+              <div class="profile-badges">
+                <span class="profile-badge vip"><i class="fas fa-crown"></i> VIP User</span>
+                <span class="profile-badge verified"><i class="fas fa-check-circle"></i> Verified</span>
+                <span class="profile-badge api"><i class="fas fa-code"></i> API</span>
+              </div>
+              <div class="profile-stats">
+                <div class="profile-stat"><div class="ps-val">247</div><div class="ps-label">Orders</div></div>
+                <div class="profile-stat"><div class="ps-val">$247</div><div class="ps-label">Spent</div></div>
+                <div class="profile-stat"><div class="ps-val">17</div><div class="ps-label">Referrals</div></div>
+                <div class="profile-stat"><div class="ps-val">3</div><div class="ps-label">Tickets</div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title" style="margin-bottom:16px">Quick Settings</div>
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div class="toggle-wrap"><span style="font-size:13px">Email Notifications</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-wrap"><span style="font-size:13px">SMS Alerts</span><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-wrap"><span style="font-size:13px">2-Factor Auth</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+                <div class="toggle-wrap"><span style="font-size:13px">Low Balance Alert</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:16px">
+              <div class="card-title" style="margin-bottom:16px">Edit Profile</div>
+              <div class="form-group"><label>Username</label><input type="text" class="form-control" value="TitanUser"></div>
+              <div class="form-group"><label>Email</label><input type="email" class="form-control" value="titanuser@email.com"></div>
+              <div class="form-group"><label>Skype / Telegram</label><input type="text" class="form-control" placeholder="@yourtelegram"></div>
+              <button class="btn btn-primary" onclick="showToast('success','Profile updated successfully!')"><i class="fas fa-save"></i> Save Changes</button>
+            </div>
+            <div class="card">
+              <div class="card-title" style="margin-bottom:16px">Change Password</div>
+              <div class="form-group"><label>Current Password</label><input type="password" class="form-control" placeholder="Current password"></div>
+              <div class="form-group"><label>New Password</label><input type="password" class="form-control" placeholder="New password"></div>
+              <div class="form-group"><label>Confirm Password</label><input type="password" class="form-control" placeholder="Repeat new password"></div>
+              <button class="btn btn-primary" onclick="showToast('success','Password changed successfully!')"><i class="fas fa-key"></i> Update Password</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /page-content -->
+  </div><!-- /main-content -->
+</div><!-- /app-container -->
+
+<!-- REFILL MODAL -->
+<div class="modal-overlay" id="refillModal">
+  <div class="modal-box">
+    <div class="modal-title">Request Refill <span class="modal-close" onclick="document.getElementById('refillModal').classList.remove('open')">✕</span></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:20px">Order #4521 — Instagram Followers [1000]. This service includes a 30-day refill guarantee.</p>
+    <button class="btn btn-primary btn-block" onclick="document.getElementById('refillModal').classList.remove('open');showToast('success','Refill requested for order #4521!')">Confirm Refill Request</button>
+  </div>
+</div>
+
+<script>
+  const API = '';  // Same origin — backend serves this file from /public
+
+  let token = localStorage.getItem('titan_token');
+  let currentUser = null;
+
+  // ===== API HELPER =====
+  async function api(method, path, body) {
+    const opts = {
+      method,
+      headers: { 'Content-Type': 'application/json' }
+    };
+    if (token) opts.headers['Authorization'] = 'Bearer ' + token;
+    if (body) opts.body = JSON.stringify(body);
+    const res = await fetch(API + path, opts);
+    const data = await res.json();
+    if (!res.ok) throw data;
+    return data;
+  }
+
+  // ===== AUTO LOGIN ON LOAD =====
+  window.addEventListener('DOMContentLoaded', async () => {
+    if (token) {
+      try {
+        currentUser = await api('GET', '/api/auth/me');
+        enterApp();
+        loadDashboard();
+      } catch {
+        token = null;
+        localStorage.removeItem('titan_token');
+      }
+    }
+  });
+
+  // ===== LOGIN / REGISTER =====
+  function switchLoginTab(tab) {
+    document.querySelectorAll('.login-tab').forEach((t, i) =>
+      t.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'register')));
+    document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+    document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+  }
+
+  async function doLogin() {
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
+    if (!username || !password) { showToast('error', 'Fill in all fields'); return; }
+    try {
+      const data = await api('POST', '/api/auth/login', { username, password });
+      token = data.token;
+      currentUser = data.user;
+      localStorage.setItem('titan_token', token);
+      enterApp();
+      loadDashboard();
+      showToast('success', 'Welcome back, ' + currentUser.username + '!');
+    } catch (e) {
+      showToast('error', e.error || 'Login failed');
+    }
+  }
+
+  async function doRegister() {
+    const username = document.getElementById('regUsername').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
+    const referral_code = document.getElementById('regReferral') ? document.getElementById('regReferral').value.trim() : '';
+    if (!username || !email || !password) { showToast('error', 'Fill in all fields'); return; }
+    try {
+      const data = await api('POST', '/api/auth/register', { username, email, password, referral_code });
+      token = data.token;
+      currentUser = data.user;
+      localStorage.setItem('titan_token', token);
+      enterApp();
+      loadDashboard();
+      showToast('success', 'Account created! Welcome ' + currentUser.username);
+    } catch (e) {
+      showToast('error', e.error || 'Registration failed');
+    }
+  }
+
+  function enterApp() {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('appContainer').classList.add('active');
+    if (currentUser) {
+      document.querySelectorAll('#userDisplayName').forEach(el => el.textContent = currentUser.username);
+      document.getElementById('sidebarBalance') && (document.getElementById('sidebarBalance').textContent = '$' + (currentUser.balance || 0).toFixed(2));
+    }
+  }
+
+  function doLogout() {
+    token = null;
+    currentUser = null;
+    localStorage.removeItem('titan_token');
+    document.getElementById('appContainer').classList.remove('active');
+    document.getElementById('loginPage').style.display = 'flex';
+    showToast('info', 'Logged out');
+  }
+
+  // ===== DASHBOARD =====
+  async function loadDashboard() {
+    try {
+      const stats = await api('GET', '/api/user/dashboard');
+      const el = (id) => document.getElementById(id);
+      if (el('dash-orders')) el('dash-orders').textContent = stats.totalOrders || 0;
+      if (el('dash-completed')) el('dash-completed').textContent = stats.completed || 0;
+      if (el('dash-balance')) el('dash-balance').textContent = '$' + parseFloat(stats.balance || 0).toFixed(2);
+      if (el('dash-spent')) el('dash-spent').textContent = '$' + parseFloat(stats.totalSpent || 0).toFixed(2);
+      if (el('sidebarBalance')) el('sidebarBalance').textContent = '$' + parseFloat(stats.balance || 0).toFixed(2);
+    } catch (e) {}
+  }
+
+  // ===== SERVICES =====
+  let allServices = [];
+
+  async function loadServices() {
+    try {
+      allServices = await api('GET', '/api/user/services');
+      // Fill New Order select
+      const sel = document.getElementById('serviceSelect');
+      if (sel) {
+        sel.innerHTML = '<option value="">Select a service...</option>';
+        const cats = {};
+        allServices.forEach(s => {
+          if (!cats[s.category]) cats[s.category] = [];
+          cats[s.category].push(s);
+        });
+        Object.entries(cats).forEach(([cat, svcs]) => {
+          const og = document.createElement('optgroup');
+          og.label = cat;
+          svcs.forEach(s => {
+            const o = document.createElement('option');
+            o.value = s.id;
+            o.textContent = `[${s.id}] ${s.name}`;
+            o.dataset.price = s.rate_per_1000;
+            o.dataset.min = s.min_qty;
+            o.dataset.max = s.max_qty;
+            og.appendChild(o);
+          });
+          sel.appendChild(og);
+        });
+      }
+      // Fill Services page table
+      renderServicesTable(allServices);
+    } catch (e) {}
+  }
+
+  function renderServicesTable(services) {
+    const tbody = document.getElementById('servicesTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = services.map(s => `
+      <tr>
+        <td style="color:var(--text3)">${s.id}</td>
+        <td>${s.name}</td>
+        <td><span style="background:rgba(124,58,237,0.2);color:var(--accent3);padding:2px 10px;border-radius:20px;font-size:11px">${s.category}</span></td>
+        <td style="color:var(--green)">$${parseFloat(s.rate_per_1000).toFixed(3)}</td>
+        <td>${parseInt(s.min_qty).toLocaleString()}</td>
+        <td>${parseInt(s.max_qty).toLocaleString()}</td>
+        <td><span class="status-badge completed">Active</span></td>
+      </tr>
+    `).join('');
+  }
+
+  // ===== NEW ORDER =====
+  function updateServiceInfo() {
+    const sel = document.getElementById('serviceSelect');
+    const opt = sel.options[sel.selectedIndex];
+    const price = parseFloat(opt.getAttribute('data-price')) || 0;
+    const min = opt.getAttribute('data-min') || '—';
+    const max = opt.getAttribute('data-max') || '—';
+    if (price) {
+      document.getElementById('serviceInfoBox').style.display = 'block';
+      document.getElementById('svc-rate').textContent = '$' + price.toFixed(3) + '/1000';
+      document.getElementById('svc-min').textContent = parseInt(min).toLocaleString();
+      document.getElementById('svc-max').textContent = parseInt(max).toLocaleString();
+      document.getElementById('sum-service').textContent = opt.text.substring(0, 35) + (opt.text.length > 35 ? '...' : '');
+      document.getElementById('sum-rate').textContent = '$' + price.toFixed(3) + '/1000';
+      calcPrice();
+    } else {
+      document.getElementById('serviceInfoBox').style.display = 'none';
+    }
+  }
+
+  function calcPrice() {
+    const sel = document.getElementById('serviceSelect');
+    const opt = sel.options[sel.selectedIndex];
+    const price = parseFloat(opt.getAttribute('data-price')) || 0;
+    const qty = parseInt(document.getElementById('orderQty').value) || 0;
+    const total = (qty / 1000) * price;
+    document.getElementById('sum-qty').textContent = qty.toLocaleString();
+    document.getElementById('sum-total').textContent = '$' + total.toFixed(4);
+  }
+
+  async function placeOrder() {
+    const service_id = document.getElementById('serviceSelect').value;
+    const link = document.getElementById('orderLink').value.trim();
+    const quantity = parseInt(document.getElementById('orderQty').value);
+    if (!service_id) { showToast('error', 'Select a service!'); return; }
+    if (!link) { showToast('error', 'Enter a link!'); return; }
+    if (!quantity) { showToast('error', 'Enter quantity!'); return; }
+    try {
+      const res = await api('POST', '/api/user/order', { service_id: parseInt(service_id), link, quantity });
+      showToast('success', `Order #${res.order_id} placed! Charged: $${res.charge.toFixed(4)}`);
+      document.getElementById('orderLink').value = '';
+      loadDashboard();
+      loadOrders();
+    } catch (e) {
+      showToast('error', e.error || 'Order failed');
+    }
+  }
+
+  // ===== ORDERS =====
+  async function loadOrders(status = 'all') {
+    try {
+      const orders = await api('GET', '/api/user/orders?status=' + status);
+      const tbody = document.getElementById('ordersTableBody');
+      if (!tbody) return;
+      if (!orders.length) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text3);padding:40px">No orders found</td></tr>';
+        return;
+      }
+      tbody.innerHTML = orders.map(o => `
+        <tr>
+          <td style="color:var(--text3)">#${o.id}</td>
+          <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${o.service_name}</td>
+          <td style="color:var(--blue);font-size:12px;max-width:120px;overflow:hidden;text-overflow:ellipsis">${o.link}</td>
+          <td>${parseInt(o.quantity).toLocaleString()}</td>
+          <td style="color:var(--green)">$${parseFloat(o.charge).toFixed(4)}</td>
+          <td>${parseInt(o.remains || 0).toLocaleString()}</td>
+          <td><span class="status-badge ${o.status}">${o.status}</span></td>
+          <td>
+            ${o.status === 'pending' ? `<button class="btn btn-sm" onclick="cancelOrder(${o.id})" style="background:rgba(239,68,68,0.2);color:var(--red);border:1px solid rgba(239,68,68,0.3);padding:4px 10px;font-size:11px;border-radius:6px">Cancel</button>` : ''}
+            ${o.status === 'completed' ? `<button class="btn btn-sm" onclick="requestRefillApi(${o.id})" style="background:rgba(59,130,246,0.2);color:var(--blue);border:1px solid rgba(59,130,246,0.3);padding:4px 10px;font-size:11px;border-radius:6px">Refill</button>` : ''}
+          </td>
+        </tr>
+      `).join('');
+    } catch (e) {}
+  }
+
+  async function cancelOrder(id) {
+    try {
+      await api('POST', '/api/user/order/' + id + '/cancel');
+      showToast('success', 'Order cancelled & refunded!');
+      loadOrders();
+      loadDashboard();
+    } catch (e) {
+      showToast('error', e.error || 'Cannot cancel');
+    }
+  }
+
+  async function requestRefillApi(id) {
+    try {
+      await api('POST', '/api/user/order/' + id + '/refill');
+      showToast('success', 'Refill requested!');
+    } catch (e) {
+      showToast('error', e.error || 'Refill failed');
+    }
+  }
+
+  // ===== ADD FUNDS =====
+  function selectPay(el) {
+    document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function setAmount(amt, el) {
+    document.querySelectorAll('.amount-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('fundAmount').value = amt;
+    updateBonusDisplay();
+  }
+
+  function updateBonusDisplay() {
+    const amt = parseFloat(document.getElementById('fundAmount').value) || 0;
+    let bonus = 0;
+    if (amt >= 250) bonus = 18;
+    else if (amt >= 100) bonus = 12;
+    else if (amt >= 50) bonus = 8;
+    else if (amt >= 25) bonus = 5;
+    else if (amt >= 10) bonus = 2;
+    const bonusEl = document.getElementById('bonusInfo');
+    if (bonusEl) bonusEl.textContent = bonus > 0 ? `+${bonus}% bonus = $${(amt * bonus / 100).toFixed(2)} extra!` : '';
+  }
+
+  async function submitFundRequest() {
+    const amount = parseFloat(document.getElementById('fundAmount').value);
+    const payCard = document.querySelector('.payment-card.selected');
+    const method = payCard ? payCard.dataset.method || 'manual' : 'manual';
+    if (!amount || amount < 1) { showToast('error', 'Minimum amount is $1'); return; }
+    try {
+      const res = await api('POST', '/api/user/add-funds', { amount, method });
+      showToast('success', `Request submitted! Bonus: $${res.bonus.toFixed(2)}. Total: $${res.total.toFixed(2)}`);
+    } catch (e) {
+      showToast('error', e.error || 'Request failed');
+    }
+  }
+
+  // ===== BALANCE =====
+  async function loadBalance() {
+    try {
+      const data = await api('GET', '/api/user/balance');
+      const el = document.getElementById('balanceAmount');
+      if (el) el.textContent = '$' + parseFloat(data.balance).toFixed(2);
+      const tbody = document.getElementById('txTableBody');
+      if (tbody && data.transactions) {
+        tbody.innerHTML = data.transactions.map(t => `
+          <tr>
+            <td>#${t.id}</td>
+            <td>${t.type}</td>
+            <td style="color:var(--green)">$${parseFloat(t.amount).toFixed(2)}</td>
+            <td>${t.method || '—'}</td>
+            <td><span class="status-badge ${t.status}">${t.status}</span></td>
+            <td style="color:var(--text3);font-size:12px">${new Date(t.created_at).toLocaleDateString()}</td>
+          </tr>
+        `).join('');
+      }
+    } catch (e) {}
+  }
+
+  // ===== REFERRAL =====
+  async function loadReferral() {
+    try {
+      const data = await api('GET', '/api/user/referral');
+      const linkEl = document.getElementById('refLink');
+      const codeEl = document.getElementById('refCode');
+      if (linkEl) linkEl.value = window.location.origin + '?ref=' + data.referral_code;
+      if (codeEl) codeEl.textContent = data.referral_code;
+      if (document.getElementById('refCount')) document.getElementById('refCount').textContent = data.total_referrals;
+      if (document.getElementById('refEarned')) document.getElementById('refEarned').textContent = '$' + parseFloat(data.total_earned || 0).toFixed(2);
+    } catch (e) {}
+  }
+
+  function copyRefLink() {
+    const val = document.getElementById('refLink') ? document.getElementById('refLink').value : '';
+    navigator.clipboard.writeText(val).then(() => showToast('success', 'Link copied!'));
+  }
+
+  // ===== API KEY =====
+  async function loadApiInfo() {
+    try {
+      const user = await api('GET', '/api/auth/me');
+      const el = document.getElementById('apiKeyDisplay');
+      if (el) el.textContent = user.api_key || '—';
+    } catch (e) {}
+  }
+
+  async function generateApiKey() {
+    try {
+      const data = await api('POST', '/api/user/api-key/generate');
+      const el = document.getElementById('apiKeyDisplay');
+      if (el) el.textContent = data.api_key;
+      showToast('success', 'New API key generated!');
+    } catch (e) {
+      showToast('error', 'Failed to generate key');
+    }
+  }
+
+  function copyApiKey() {
+    const val = document.getElementById('apiKeyDisplay') ? document.getElementById('apiKeyDisplay').textContent : '';
+    navigator.clipboard.writeText(val).then(() => showToast('success', 'API key copied!'));
+  }
+
+  // ===== CHILD PANELS =====
+  async function loadChildPanels() {
+    try {
+      const panels = await api('GET', '/api/user/child-panels');
+      const cont = document.getElementById('childPanelsList');
+      if (!cont) return;
+      cont.innerHTML = panels.length ? panels.map(p => `
+        <div class="card" style="padding:16px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-weight:600">${p.name}</div>
+            <div style="font-size:12px;color:var(--text3)">${p.api_url} · Markup: ${p.markup}%</div>
+          </div>
+          <span class="status-badge completed">Active</span>
+        </div>
+      `).join('') : '<p style="color:var(--text3)">No child panels added yet</p>';
+    } catch (e) {}
+  }
+
+  async function addChildPanel() {
+    const name = document.getElementById('cpName').value.trim();
+    const api_url = document.getElementById('cpUrl').value.trim();
+    const api_key = document.getElementById('cpKey').value.trim();
+    const markup = parseFloat(document.getElementById('cpMarkup').value) || 20;
+    if (!name || !api_url || !api_key) { showToast('error', 'Fill all required fields'); return; }
+    try {
+      await api('POST', '/api/user/child-panels', { name, api_url, api_key, markup });
+      showToast('success', 'Child panel added!');
+      loadChildPanels();
+    } catch (e) {
+      showToast('error', e.error || 'Failed');
+    }
+  }
+
+  // ===== TICKETS =====
+  async function loadTickets() {
+    try {
+      const tickets = await api('GET', '/api/user/tickets');
+      const tbody = document.getElementById('ticketsTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = tickets.length ? tickets.map(t => `
+        <tr>
+          <td>#${t.id}</td>
+          <td>${t.subject}</td>
+          <td style="color:var(--text3);font-size:12px">${t.message.substring(0, 50)}...</td>
+          <td><span class="status-badge ${t.status === 'open' ? 'pending' : t.status === 'answered' ? 'completed' : 'cancelled'}">${t.status}</span></td>
+          <td style="color:var(--text3);font-size:12px">${new Date(t.created_at).toLocaleDateString()}</td>
+        </tr>
+      `).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--text3);padding:30px">No tickets yet</td></tr>';
+    } catch (e) {}
+  }
+
+  async function createTicket() {
+    const subject = document.getElementById('ticketSubject').value.trim();
+    const message = document.getElementById('ticketMessage').value.trim();
+    if (!subject || !message) { showToast('error', 'Fill in subject and message'); return; }
+    try {
+      const res = await api('POST', '/api/user/tickets', { subject, message });
+      showToast('success', `Ticket #${res.ticket_id} created!`);
+      document.getElementById('ticketSubject').value = '';
+      document.getElementById('ticketMessage').value = '';
+      loadTickets();
+    } catch (e) {
+      showToast('error', e.error || 'Failed');
+    }
+  }
+
+  // ===== ACCOUNT =====
+  async function updateProfile() {
+    const username = document.getElementById('profUsername').value.trim();
+    const email = document.getElementById('profEmail').value.trim();
+    if (!username || !email) { showToast('error', 'Fill all fields'); return; }
+    try {
+      await api('PUT', '/api/user/profile', { username, email });
+      showToast('success', 'Profile updated!');
+    } catch (e) {
+      showToast('error', e.error || 'Update failed');
+    }
+  }
+
+  async function changePassword() {
+    const current_password = document.getElementById('curPass').value.trim();
+    const new_password = document.getElementById('newPass').value.trim();
+    const confirm = document.getElementById('confPass').value.trim();
+    if (!current_password || !new_password) { showToast('error', 'Fill all fields'); return; }
+    if (new_password !== confirm) { showToast('error', 'Passwords do not match'); return; }
+    try {
+      await api('POST', '/api/user/change-password', { current_password, new_password });
+      showToast('success', 'Password changed!');
+      document.getElementById('curPass').value = '';
+      document.getElementById('newPass').value = '';
+      document.getElementById('confPass').value = '';
+    } catch (e) {
+      showToast('error', e.error || 'Failed');
+    }
+  }
+
+  // ===== PAGE NAVIGATION =====
+  const pageTitles = {
+    dashboard: ['Dashboard', 'Overview of your account'],
+    neworder: ['New Order', 'Place a new social media order'],
+    massorder: ['Mass Order', 'Submit multiple orders at once'],
+    orders: ['My Orders', 'Track and manage all your orders'],
+    services: ['All Services', 'Browse all available SMM services'],
+    subscriptions: ['Subscriptions', 'Auto-recurring order management'],
+    dripfeed: ['Drip-Feed', 'Scheduled gradual delivery'],
+    giveaways: ['Giveaways', 'Win free SMM credits!'],
+    addfunds: ['Add Funds', 'Top up your wallet'],
+    transfer: ['Transfer Funds', 'Send balance to another user'],
+    earn: ['Earn', 'Ways to earn free credits'],
+    refer: ['Refer & Earn', 'Invite friends, earn commission'],
+    childpanels: ['Child Panels', 'Reseller panel management'],
+    api: ['API', 'Developer API access'],
+    tickets: ['Support', 'Get help from our team'],
+    announcements: ['Announcements', 'Latest news and updates'],
+    updates: ['Panel Updates', 'Version history'],
+    account: ['Account Settings', 'Manage your profile'],
+  };
+
+  function showPage(name) {
+    document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const pg = document.getElementById('page-' + name);
+    if (pg) pg.classList.add('active');
+    const [title, sub] = pageTitles[name] || [name, ''];
+    document.getElementById('pageTitle').textContent = title;
+    document.getElementById('pageSubtitle').textContent = sub;
+    document.querySelectorAll('.nav-item').forEach(n => {
+      if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + name + "'")) n.classList.add('active');
+    });
+    closeSidebar();
+    // Lazy load on navigation
+    if (name === 'orders') loadOrders();
+    if (name === 'services') { if (!allServices.length) loadServices(); else renderServicesTable(allServices); }
+    if (name === 'neworder') { if (!allServices.length) loadServices(); }
+    if (name === 'addfunds') loadBalance();
+    if (name === 'refer') loadReferral();
+    if (name === 'api') loadApiInfo();
+    if (name === 'childpanels') loadChildPanels();
+    if (name === 'tickets') loadTickets();
+    if (name === 'account') loadProfileData();
+  }
+
+  async function loadProfileData() {
+    try {
+      const user = await api('GET', '/api/auth/me');
+      if (document.getElementById('profUsername')) document.getElementById('profUsername').value = user.username || '';
+      if (document.getElementById('profEmail')) document.getElementById('profEmail').value = user.email || '';
+    } catch (e) {}
+  }
+
+  // ===== SIDEBAR =====
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  }
+
+  // ===== NOTIFICATIONS =====
+  function toggleNotif() {
+    document.getElementById('notifDropdown').classList.toggle('open');
+  }
+  document.addEventListener('click', function (e) {
+    const nb = document.getElementById('notifBtn');
+    if (nb && !nb.contains(e.target)) {
+      document.getElementById('notifDropdown').classList.remove('open');
+    }
+  });
+
+  // ===== TOAST =====
+  function showToast(type, msg) {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    const icons = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+    toast.innerHTML = `<span>${icons[type] || 'ℹ️'}</span><span>${msg}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(100px)';
+      toast.style.transition = 'all 0.3s';
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+
+  // ===== FILTER BUTTONS =====
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      this.closest('.order-filters').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      loadOrders(this.dataset.status || 'all');
+    });
+  });
+  document.querySelectorAll('.stype-tab').forEach(tab => {
+    tab.addEventListener('click', function () {
+      this.closest('.service-type-tabs').querySelectorAll('.stype-tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // ===== REFILL MODAL =====
+  function showRefillModal() {
+    document.getElementById('refillModal').classList.add('open');
+  }
+</script>
+</body>
+</html>
